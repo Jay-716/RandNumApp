@@ -1,4 +1,4 @@
-# RanNumApp
+# RandNumApp
 ## 抽学号软件 魔法学号 的复刻版，添加了作弊功能。
 
 
