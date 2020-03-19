@@ -6,3 +6,4 @@ G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.csproj.GenerateResource.c
 G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.exe
 G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.pdb
 G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.MyForm.resources
+G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.csprojAssemblyReference.cache

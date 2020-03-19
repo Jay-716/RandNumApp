@@ -14,17 +14,16 @@ namespace WindowsFormsApp
     public partial class MyForm : Form
     {
         public bool CounterRunning { get; set; }
-        public bool IndexShow { get; set; }
         public int MaxValue { get; set; }
         public int MinValue { get; set; }
         public int CheatValue { get; set; }
+        public string Data { get; set; }
 
         public MyForm()
         {
             InitializeComponent();
 
             this.CounterRunning = false;
-            this.IndexShow = false;
             this.ButtonStop.Enabled = false;//默认打开软件，停止按钮不可用
             this.labelIndex.Visible = false;
             this.textBoxMinValue.Visible = false;
@@ -37,7 +36,7 @@ namespace WindowsFormsApp
 
         private void LoadData()
         {
-            if(File.Exists("Data.dat"))
+            if(File.Exists("./data.dat"))
             {
                 StreamReader file = new StreamReader("./data.dat");
                 MinValue = Convert.ToInt32(file.ReadLine());
@@ -107,10 +106,20 @@ namespace WindowsFormsApp
         {
             this.MaxValue = Convert.ToInt32(this.textBoxMaxValue.Text);
             this.MinValue = Convert.ToInt32(this.textBoxMinValue.Text);
+            this.Data = MinValue.ToString() + '\n' + MaxValue.ToString() + '\n' + CheatValue.ToString();
+            FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            StreamWriter sw = new StreamWriter(fs);
+            sw.WriteLine(Data);
+            sw.Close();
         }
 
         private void ToolStripMenuItemExit_Click(object sender, EventArgs e)
         {
+            this.Data = MinValue.ToString() + '\n' + MaxValue.ToString() + '\n' + CheatValue.ToString();
+            FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            StreamWriter sw = new StreamWriter(fs);
+            sw.WriteLine(Data);
+            sw.Close();
             Application.Exit();
         }
     }
