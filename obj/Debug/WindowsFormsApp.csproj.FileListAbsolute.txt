@@ -1,0 +1,8 @@
+G:\CSharpApp\WindowsFormsApp\bin\Debug\WindowsFormsApp.exe.config
+G:\CSharpApp\WindowsFormsApp\bin\Debug\WindowsFormsApp.exe
+G:\CSharpApp\WindowsFormsApp\bin\Debug\WindowsFormsApp.pdb
+G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.Properties.Resources.resources
+G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.csproj.GenerateResource.cache
+G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.exe
+G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.pdb
+G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.MyForm.resources
