@@ -74,27 +74,27 @@
             this.ToolStripMenuItemShowIndex,
             this.ToolStripMenuItemHideIndex});
             this.范围选项ToolStripMenuItem.Name = "范围选项ToolStripMenuItem";
-            this.范围选项ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.范围选项ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.范围选项ToolStripMenuItem.Text = "范围选项";
             // 
             // ToolStripMenuItemShowIndex
             // 
             this.ToolStripMenuItemShowIndex.Name = "ToolStripMenuItemShowIndex";
-            this.ToolStripMenuItemShowIndex.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemShowIndex.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItemShowIndex.Text = "显示";
             this.ToolStripMenuItemShowIndex.Click += new System.EventHandler(this.ToolStripMenuItemShowIndex_Click);
             // 
             // ToolStripMenuItemHideIndex
             // 
             this.ToolStripMenuItemHideIndex.Name = "ToolStripMenuItemHideIndex";
-            this.ToolStripMenuItemHideIndex.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemHideIndex.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItemHideIndex.Text = "隐藏";
             this.ToolStripMenuItemHideIndex.Click += new System.EventHandler(this.ToolStripMenuItemHideIndex_Click);
             // 
             // ToolStripMenuItemExit
             // 
             this.ToolStripMenuItemExit.Name = "ToolStripMenuItemExit";
-            this.ToolStripMenuItemExit.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemExit.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItemExit.Text = "退出";
             this.ToolStripMenuItemExit.Click += new System.EventHandler(this.ToolStripMenuItemExit_Click);
             // 
@@ -109,7 +109,7 @@
             // 关于ToolStripMenuItem
             // 
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.关于ToolStripMenuItem.Text = "关于";
             // 
             // ButtonStart
