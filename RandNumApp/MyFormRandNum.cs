@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
@@ -26,10 +20,6 @@ namespace WindowsFormsApp
             //忽略线程访问安全机制，允许另一个线程访问其它线程创建的控件而不抛出异常。（影响不大）
 
             this.CounterRunning = false;
-            this.ButtonStop.Enabled = false;//默认打开软件，停止按钮不可用
-            this.labelIndex.Visible = false;
-            this.textBoxMinValue.Visible = false;
-            this.textBoxMaxValue.Visible = false;
             this.MaxValue = 50;
             this.MinValue = 1;
             this.CheatValue = 0;
@@ -115,6 +105,8 @@ namespace WindowsFormsApp
             this.textBoxMinValue.Enabled = true;
             this.textBoxMaxValue.Enabled = true;
             this.textBoxMaxValue.Leave += IndexValueChange;
+            this.ToolStripMenuItemHideIndex.Enabled = true;
+            this.ToolStripMenuItemShowIndex.Enabled = false;
         }
 
         private void ToolStripMenuItemHideIndex_Click(object sender, EventArgs e)
@@ -124,6 +116,8 @@ namespace WindowsFormsApp
             this.textBoxMaxValue.Visible = false;
             this.textBoxMinValue.Enabled = false;
             this.textBoxMaxValue.Enabled = false;
+            this.ToolStripMenuItemHideIndex.Enabled = false;
+            this.ToolStripMenuItemShowIndex.Enabled = true;
         }
 
         private void IndexValueChange(object sender, EventArgs e)
@@ -174,6 +168,26 @@ namespace WindowsFormsApp
                 Application.Exit();
             }
             Application.Exit();
+        }
+
+        private void MyForm_MouseEnter(object sender, EventArgs e) {
+            this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+        }
+
+        private void MyForm_MouseLeave(object sender, EventArgs e) {
+            this.Cursor = Cursors.Default;
+        }
+
+        private void ButtonStart_MouseEnter(object sender, EventArgs e) {
+            this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+        }
+
+        private void ButtonStop_MouseEnter(object sender, EventArgs e) {
+            this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+        }
+
+        private void label_MouseEnter(object sender, EventArgs e) {
+            this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
         }
     }
 }

@@ -7,3 +7,13 @@ G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.exe
 G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.pdb
 G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.MyForm.resources
 G:\CSharpApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.csprojAssemblyReference.cache
+G:\RandNumApp\RandNumApp\bin\Debug\WindowsFormsApp.exe.config
+G:\RandNumApp\RandNumApp\bin\Debug\WindowsFormsApp.exe
+G:\RandNumApp\RandNumApp\bin\Debug\WindowsFormsApp.pdb
+G:\RandNumApp\RandNumApp\obj\Debug\WindowsFormsApp.csprojAssemblyReference.cache
+G:\RandNumApp\RandNumApp\obj\Debug\WindowsFormsApp.MyForm.resources
+G:\RandNumApp\RandNumApp\obj\Debug\WindowsFormsApp.Properties.Resources.resources
+G:\RandNumApp\RandNumApp\obj\Debug\WindowsFormsApp.csproj.GenerateResource.cache
+G:\RandNumApp\RandNumApp\obj\Debug\WindowsFormsApp.csproj.CoreCompileInputs.cache
+G:\RandNumApp\RandNumApp\obj\Debug\WindowsFormsApp.exe
+G:\RandNumApp\RandNumApp\obj\Debug\WindowsFormsApp.pdb
