@@ -43,7 +43,7 @@ namespace WindowsFormsApp
                 {
                     FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite);
                     StreamWriter sw = new StreamWriter(fs);
-                    sw.WriteLine("1\n50\n31");
+                    sw.WriteLine("1\n50\n38");
                     sw.Close();
                     File.SetAttributes("./data.dat", FileAttributes.Hidden);
                 }
