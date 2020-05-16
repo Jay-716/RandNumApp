@@ -177,6 +177,7 @@
             this.labelIndex.TabIndex = 5;
             this.labelIndex.Text = "~";
             this.labelIndex.Visible = false;
+            this.labelIndex.MouseEnter += new System.EventHandler(this.labelIndex_MouseEnter);
             // 
             // textBoxMaxValue
             // 
