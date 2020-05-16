@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp", "RandNumApp\WindowsFormsApp.csproj", "{A809EC15-FEF5-4721-91DC-72355DD3E3AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandNumApp", "RandNumApp\RandNumApp.csproj", "{A809EC15-FEF5-4721-91DC-72355DD3E3AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace WindowsFormsApp {
     public partial class MyForm : Form {
@@ -34,8 +35,10 @@ namespace WindowsFormsApp {
                 if (File.Exists("./data.dat")) {
                     StreamReader file = new StreamReader("./data.dat");
                     MinValue = Convert.ToInt32(file.ReadLine());
+                    this.textBoxMinValue.Text = MinValue.ToString();
                     if (file.EndOfStream) throw new FormatException();//当data.dat只有一行时，抛出格式错误（与Convert的异常处理混用）
                     MaxValue = Convert.ToInt32(file.ReadLine());
+                    this.textBoxMaxValue.Text = MaxValue.ToString();
                     while (!file.EndOfStream) {
                         string num = file.ReadLine();
                         if (!num.Equals("\n"))
@@ -59,76 +62,6 @@ namespace WindowsFormsApp {
             }
         }
 
-        private void ButtonStart_Click(object sender, EventArgs e) {
-            CounterRunning = true;
-            this.ButtonStart.Enabled = false;
-            this.ButtonStop.Enabled = true;
-            Task task = new Task(RandNum);
-            task.Start();
-        }
-
-        private void ButtonStop_Click(object sender, EventArgs e) {
-            CounterRunning = false;
-            this.ButtonStart.Enabled = true;
-            this.ButtonStop.Enabled = false;
-        }
-
-        private void RandNum() {
-            int min = MinValue;
-            int max = MaxValue;
-            int num = 0;
-            Random random = new Random(num);
-            while (CounterRunning) {
-                num = random.Next(min, max + 1);
-                while (CheatValues.Contains(num))
-                    num = random.Next(min, max + 1);
-                this.label.Text = num.ToString();
-                System.Threading.Thread.Sleep(10);
-            }
-        }
-
-        private void ToolStripMenuItemShowIndex_Click(object sender, EventArgs e) {
-            this.textBoxMinValue.Text = MinValue.ToString();
-            this.textBoxMaxValue.Text = MaxValue.ToString();
-            this.labelIndex.Visible = true;
-            this.textBoxMinValue.Visible = true;
-            this.textBoxMaxValue.Visible = true;
-            this.textBoxMinValue.Enabled = true;
-            this.textBoxMaxValue.Enabled = true;
-            this.textBoxMaxValue.Leave += IndexValueChange;
-            this.ToolStripMenuItemHideIndex.Enabled = true;
-            this.ToolStripMenuItemShowIndex.Enabled = false;
-        }
-
-        private void ToolStripMenuItemHideIndex_Click(object sender, EventArgs e) {
-            this.labelIndex.Visible = false;
-            this.textBoxMinValue.Visible = false;
-            this.textBoxMaxValue.Visible = false;
-            this.textBoxMinValue.Enabled = false;
-            this.textBoxMaxValue.Enabled = false;
-            this.ToolStripMenuItemHideIndex.Enabled = false;
-            this.ToolStripMenuItemShowIndex.Enabled = true;
-        }
-
-        private void IndexValueChange(object sender, EventArgs e) {
-            try {
-                this.MaxValue = Convert.ToInt32(this.textBoxMaxValue.Text);
-                this.MinValue = Convert.ToInt32(this.textBoxMinValue.Text);
-            } catch (FormatException ex) {
-                this.MaxValue = 50;
-                this.MinValue = 1;
-                this.textBoxMinValue.Text = MinValue.ToString();
-                this.textBoxMaxValue.Text = MaxValue.ToString();
-                MessageBox.Show("请输入合法的数字。\n" + ex.ToString());
-            }
-            SaveData();
-        }
-
-        private void ToolStripMenuItemExit_Click(object sender, EventArgs e) {
-            SaveData();
-            Application.Exit();
-        }
-
         private void SaveData() {
             try {
                 this.Data = MinValue.ToString() + '\n' + MaxValue.ToString() + '\n';
@@ -149,8 +82,75 @@ namespace WindowsFormsApp {
                 this.MinValue = 1;
                 this.textBoxMinValue.Text = MinValue.ToString();
                 this.textBoxMaxValue.Text = MaxValue.ToString();
-                MessageBox.Show("请输入合法的数字。\n" + ex.ToString());
+                MessageBox.Show("请输入合法的数字。\n" + ex.Message);
             }
+        }
+
+        private void RandNum() {
+            int min = MinValue;
+            int max = MaxValue;
+            int num = 0;
+            Random random = new Random(num);
+            while (CounterRunning) {
+                num = random.Next(min, max + 1);
+                while (CheatValues.Contains(num))
+                    num = random.Next(min, max + 1);
+                this.label.Text = num.ToString();
+                System.Threading.Thread.Sleep(10);
+            }
+         }
+
+        private void IndexValueChange(object sender, EventArgs e) {
+            try {
+                this.MinValue = Convert.ToInt32(textBoxMinValue.Text);
+                this.MaxValue = Convert.ToInt32(textBoxMaxValue.Text);
+            } catch (FormatException ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ButtonStart_Click(object sender, EventArgs e) {
+            CounterRunning = true;
+            this.ButtonStart.Enabled = false;
+            this.ButtonStop.Enabled = true;
+            Task task = new Task(RandNum);
+            task.Start();
+        }
+
+        private void ButtonStop_Click(object sender, EventArgs e) {
+            CounterRunning = false;
+            this.ButtonStart.Enabled = true;
+            this.ButtonStop.Enabled = false;
+        }
+
+        
+
+        private void ToolStripMenuItemShowIndex_Click(object sender, EventArgs e) {
+            this.textBoxMinValue.Text = MinValue.ToString();
+            this.textBoxMaxValue.Text = MaxValue.ToString();
+            this.labelIndex.Visible = true;
+            this.textBoxMinValue.Visible = true;
+            this.textBoxMaxValue.Visible = true;
+            this.textBoxMinValue.Enabled = true;
+            this.textBoxMaxValue.Enabled = true;
+            this.ToolStripMenuItemHideIndex.Enabled = true;
+            this.ToolStripMenuItemShowIndex.Enabled = false;
+        }
+
+        private void ToolStripMenuItemHideIndex_Click(object sender, EventArgs e) {
+            this.labelIndex.Visible = false;
+            this.textBoxMinValue.Visible = false;
+            this.textBoxMaxValue.Visible = false;
+            this.textBoxMinValue.Enabled = false;
+            this.textBoxMaxValue.Enabled = false;
+            this.ToolStripMenuItemHideIndex.Enabled = false;
+            this.ToolStripMenuItemShowIndex.Enabled = true;
+            SaveData();
+        }
+
+        private void ToolStripMenuItemExit_Click(object sender, EventArgs e) {
+            SaveData();
+            Application.Exit();
         }
 
         private void MyForm_MouseEnter(object sender, EventArgs e) {
@@ -175,6 +175,10 @@ namespace WindowsFormsApp {
 
         private void labelIndex_MouseEnter(object sender, EventArgs e) {
             this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+        }
+
+        private void MyForm_FormClosing(object sender, FormClosingEventArgs e) {
+            SaveData();
         }
     }
 }

@@ -165,6 +165,7 @@
             this.textBoxMinValue.Size = new System.Drawing.Size(38, 21);
             this.textBoxMinValue.TabIndex = 4;
             this.textBoxMinValue.Visible = false;
+            this.textBoxMinValue.Leave += new System.EventHandler(this.IndexValueChange);
             // 
             // labelIndex
             // 
@@ -187,6 +188,7 @@
             this.textBoxMaxValue.Size = new System.Drawing.Size(39, 21);
             this.textBoxMaxValue.TabIndex = 6;
             this.textBoxMaxValue.Visible = false;
+            this.textBoxMaxValue.Leave += new System.EventHandler(this.IndexValueChange);
             // 
             // MyForm
             // 
@@ -211,6 +213,7 @@
             this.Name = "MyForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "魔法学号";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MyForm_FormClosing);
             this.MouseEnter += new System.EventHandler(this.MyForm_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.MyForm_MouseLeave);
             this.menuStrip.ResumeLayout(false);
