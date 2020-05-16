@@ -38,7 +38,7 @@ namespace WindowsFormsApp {
                     MaxValue = Convert.ToInt32(file.ReadLine());
                     while (!file.EndOfStream) {
                         string num = file.ReadLine();
-                        if(!num.Equals("\n"))
+                        if (!num.Equals("\n"))
                             CheatValues.Add(Convert.ToInt32(num));
                     }
                     file.Close();
