@@ -54,6 +54,7 @@ namespace WindowsFormsApp {
                     File.SetAttributes("./data.dat", FileAttributes.Hidden);
                 }
             } catch (UnauthorizedAccessException) {
+                //为了更像原版，不作处理
             } catch (FormatException) {
                 this.MaxValue = 50;
                 this.MinValue = 1;
@@ -77,6 +78,7 @@ namespace WindowsFormsApp {
                 sw.Close();
                 File.SetAttributes("./data.dat", FileAttributes.Hidden);
             } catch (UnauthorizedAccessException) {
+                //为了更像原版，不作处理
             } catch (FormatException ex) {
                 this.MaxValue = 50;
                 this.MinValue = 1;
@@ -96,7 +98,7 @@ namespace WindowsFormsApp {
                 while (CheatValues.Contains(num))
                     num = random.Next(min, max + 1);
                 this.label.Text = num.ToString();
-                System.Threading.Thread.Sleep(10);
+                Thread.Sleep(10);
             }
          }
 
@@ -122,8 +124,6 @@ namespace WindowsFormsApp {
             this.ButtonStart.Enabled = true;
             this.ButtonStop.Enabled = false;
         }
-
-        
 
         private void ToolStripMenuItemShowIndex_Click(object sender, EventArgs e) {
             this.textBoxMinValue.Text = MinValue.ToString();
