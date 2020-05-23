@@ -45,6 +45,7 @@ namespace WindowsFormsApp {
                             CheatValues.Add(Convert.ToInt32(num));
                     }
                     file.Close();
+                    file.Dispose();
                     File.SetAttributes("./data.dat", FileAttributes.Hidden);
                 } else {
                     FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite);
@@ -52,6 +53,8 @@ namespace WindowsFormsApp {
                     sw.WriteLine("1\n50");
                     sw.Close();
                     fs.Close();
+                    sw.Dispose();
+                    fs.Dispose();
                     File.SetAttributes("./data.dat", FileAttributes.Hidden);
                 }
             } catch (UnauthorizedAccessException) {
@@ -78,6 +81,8 @@ namespace WindowsFormsApp {
                 sw.WriteLine(Data);
                 sw.Close();
                 fs.Close();
+                sw.Dispose();
+                fs.Dispose();
                 File.SetAttributes("./data.dat", FileAttributes.Hidden);
             } catch (UnauthorizedAccessException) {
                 //为了更像原版，不作处理
