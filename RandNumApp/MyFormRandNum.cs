@@ -51,6 +51,7 @@ namespace WindowsFormsApp {
                     StreamWriter sw = new StreamWriter(fs);
                     sw.WriteLine("1\n50");
                     sw.Close();
+                    fs.Close();
                     File.SetAttributes("./data.dat", FileAttributes.Hidden);
                 }
             } catch (UnauthorizedAccessException) {
@@ -76,6 +77,7 @@ namespace WindowsFormsApp {
                 StreamWriter sw = new StreamWriter(fs);
                 sw.WriteLine(Data);
                 sw.Close();
+                fs.Close();
                 File.SetAttributes("./data.dat", FileAttributes.Hidden);
             } catch (UnauthorizedAccessException) {
                 //为了更像原版，不作处理
@@ -179,6 +181,7 @@ namespace WindowsFormsApp {
 
         private void MyForm_FormClosing(object sender, FormClosingEventArgs e) {
             SaveData();
+            Application.Exit();
         }
     }
 }
