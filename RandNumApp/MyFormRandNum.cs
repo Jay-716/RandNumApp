@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace WindowsFormsApp {
     public partial class MyForm : Form {
@@ -107,7 +107,7 @@ namespace WindowsFormsApp {
                 this.label.Text = num.ToString();
                 Thread.Sleep(10);
             }
-         }
+        }
 
         private void IndexValueChange(object sender, EventArgs e) {
             try {
@@ -156,6 +156,7 @@ namespace WindowsFormsApp {
         }
 
         private void ToolStripMenuItemExit_Click(object sender, EventArgs e) {
+            CounterRunning = false;
             SaveData();
             Application.Exit();
         }
@@ -185,6 +186,7 @@ namespace WindowsFormsApp {
         }
 
         private void MyForm_FormClosing(object sender, FormClosingEventArgs e) {
+            CounterRunning = false;
             SaveData();
             Application.Exit();
         }
