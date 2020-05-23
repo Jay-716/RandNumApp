@@ -45,6 +45,7 @@ namespace WindowsFormsApp {
                     }
                     file.Dispose();
                     File.SetAttributes("./data.dat", FileAttributes.Hidden);
+                    if (MaxValue <= MinValue) throw new FormatException();//当范围错误时，抛出格式错误（与Convert的异常处理混用）
                 } else {
                     FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite);
                     StreamWriter sw = new StreamWriter(fs);
