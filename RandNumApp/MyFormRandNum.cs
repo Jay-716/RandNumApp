@@ -7,11 +7,11 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp {
     public partial class MyForm : Form {
-        public bool CounterRunning { get; set; }
-        public int MaxValue { get; set; }
-        public int MinValue { get; set; }
-        public List<int> CheatValues { get; set; }
-        public string Data { get; set; }
+        private bool CounterRunning;
+        private int MaxValue;
+        private int MinValue;
+        private List<int> CheatValues = new List<int>();
+        private string Data;
 
         public MyForm() {
             InitializeComponent();
@@ -21,7 +21,6 @@ namespace WindowsFormsApp {
             this.CounterRunning = false;
             this.MaxValue = 50;
             this.MinValue = 1;
-            this.CheatValues = new List<int>();
             LoadData();
         }
 
