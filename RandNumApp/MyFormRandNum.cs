@@ -43,15 +43,12 @@ namespace WindowsFormsApp {
                         if (!num.Equals("\n"))
                             CheatValues.Add(Convert.ToInt32(num));
                     }
-                    file.Close();
                     file.Dispose();
                     File.SetAttributes("./data.dat", FileAttributes.Hidden);
                 } else {
                     FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite);
                     StreamWriter sw = new StreamWriter(fs);
                     sw.WriteLine("1\n50");
-                    sw.Close();
-                    fs.Close();
                     sw.Dispose();
                     fs.Dispose();
                     File.SetAttributes("./data.dat", FileAttributes.Hidden);
@@ -78,8 +75,6 @@ namespace WindowsFormsApp {
                 FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite);
                 StreamWriter sw = new StreamWriter(fs);
                 sw.WriteLine(Data);
-                sw.Close();
-                fs.Close();
                 sw.Dispose();
                 fs.Dispose();
                 File.SetAttributes("./data.dat", FileAttributes.Hidden);
