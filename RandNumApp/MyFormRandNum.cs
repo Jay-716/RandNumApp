@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace WindowsFormsApp {
     public partial class MyForm : Form {
@@ -32,27 +33,29 @@ namespace WindowsFormsApp {
         private void LoadData() {
             try {
                 if (File.Exists("./data.dat")) {
-                    StreamReader file = new StreamReader("./data.dat");
-                    MinValue = Convert.ToInt32(file.ReadLine());
-                    this.textBoxMinValue.Text = MinValue.ToString();
-                    if (file.EndOfStream) throw new FormatException();//当data.dat只有一行时，抛出格式错误（与Convert的异常处理混用）
-                    MaxValue = Convert.ToInt32(file.ReadLine());
-                    this.textBoxMaxValue.Text = MaxValue.ToString();
-                    while (!file.EndOfStream) {
-                        string num = file.ReadLine();
-                        if (!num.Equals("\n"))
-                            CheatValues.Add(Convert.ToInt32(num));
+                    using (StreamReader file = new StreamReader("./data.dat")) {
+                        MinValue = Convert.ToInt32(file.ReadLine());
+                        this.textBoxMinValue.Text = MinValue.ToString();
+                        if (file.EndOfStream)
+                            throw new FormatException();//当data.dat只有一行时，抛出格式错误（与Convert的异常处理混用）
+                        MaxValue = Convert.ToInt32(file.ReadLine());
+                        this.textBoxMaxValue.Text = MaxValue.ToString();
+                        while (!file.EndOfStream) {
+                            string num = file.ReadLine();
+                            if (!num.Contains("\n"))
+                                CheatValues.Add(Convert.ToInt32(num));
+                        }
+                        File.SetAttributes("./data.dat", FileAttributes.Hidden);
+                        if (MaxValue <= MinValue)
+                            throw new FormatException();//当范围错误时，抛出格式错误（与Convert的异常处理混用）
                     }
-                    file.Dispose();
-                    File.SetAttributes("./data.dat", FileAttributes.Hidden);
-                    if (MaxValue <= MinValue) throw new FormatException();//当范围错误时，抛出格式错误（与Convert的异常处理混用）
                 } else {
-                    FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                    StreamWriter sw = new StreamWriter(fs);
-                    sw.WriteLine("1\n50");
-                    sw.Dispose();
-                    fs.Dispose();
-                    File.SetAttributes("./data.dat", FileAttributes.Hidden);
+                    using (FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
+                        using (StreamWriter sw = new StreamWriter(fs)) {
+                            sw.WriteLine("1\n50");
+                            File.SetAttributes("./data.dat", FileAttributes.Hidden);
+                        }
+                    }
                 }
             } catch (UnauthorizedAccessException) {
                 //为了更像原版，不作处理
@@ -73,12 +76,12 @@ namespace WindowsFormsApp {
                     else
                         this.Data += i.ToString();
                 }
-                FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                StreamWriter sw = new StreamWriter(fs);
-                sw.WriteLine(Data);
-                sw.Dispose();
-                fs.Dispose();
-                File.SetAttributes("./data.dat", FileAttributes.Hidden);
+                using (FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
+                    using (StreamWriter sw = new StreamWriter(fs)) {
+                        sw.WriteLine(Data);
+                        File.SetAttributes("./data.dat", FileAttributes.Hidden);
+                    }
+                }
             } catch (UnauthorizedAccessException) {
                 //为了更像原版，不作处理
             } catch (FormatException ex) {
