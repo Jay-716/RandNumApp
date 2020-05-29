@@ -68,16 +68,13 @@ namespace WindowsFormsApp {
 
         private void SaveData() {
             try {
-                this.Data = MinValue.ToString() + '\n' + MaxValue.ToString() + '\n';
-                foreach (var i in CheatValues) {
-                    if (!(CheatValues.IndexOf(i) == CheatValues.Count - 1))//避免在文件末尾加入换行符造成读取时抛出FormatException
-                        this.Data += i.ToString() + '\n';
-                    else
-                        this.Data += i.ToString();
-                }
+                this.Data = MinValue.ToString() + '\n' + MaxValue.ToString();
                 using (FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
                     using (StreamWriter sw = new StreamWriter(fs)) {
                         sw.WriteLine(Data);
+                        foreach (var i in CheatValues) {
+                            sw.WriteLine(i.ToString());
+                        }
                         File.SetAttributes("./data.dat", FileAttributes.Hidden);
                     }
                 }
