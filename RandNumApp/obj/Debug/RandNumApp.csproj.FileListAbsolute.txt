@@ -7,3 +7,4 @@ G:\RandNumApp\RandNumApp\obj\Debug\RandNumApp.csproj.GenerateResource.cache
 G:\RandNumApp\RandNumApp\obj\Debug\RandNumApp.csproj.CoreCompileInputs.cache
 G:\RandNumApp\RandNumApp\obj\Debug\WindowsFormsApp.exe
 G:\RandNumApp\RandNumApp\obj\Debug\WindowsFormsApp.pdb
+G:\RandNumApp\RandNumApp\obj\Debug\RandNumApp.csprojAssemblyReference.cache

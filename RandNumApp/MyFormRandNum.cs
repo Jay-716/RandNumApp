@@ -9,7 +9,7 @@ namespace WindowsFormsApp {
     public partial class MyForm : Form {
         private bool CounterRunning = false;
         private int MaxValue = 50;
-        private int MinValue = 0;
+        private int MinValue = 1;
         private List<int> CheatValues = new List<int>();
         private string Data;
 
