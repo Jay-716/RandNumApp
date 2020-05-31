@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp {
     public partial class MyForm : Form {
-        private bool CounterRunning;
-        private int MaxValue;
-        private int MinValue;
+        private bool CounterRunning = false;
+        private int MaxValue = 0;
+        private int MinValue = 50;
         private List<int> CheatValues = new List<int>();
         private string Data;
 
@@ -18,9 +18,6 @@ namespace WindowsFormsApp {
             System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;
             //忽略线程访问安全机制，允许另一个线程访问其它线程创建的控件而不抛出异常。（影响不大）
 
-            this.CounterRunning = false;
-            this.MaxValue = 50;
-            this.MinValue = 1;
             LoadData();
         }
 
