@@ -8,8 +8,8 @@ using System.Windows.Forms;
 namespace WindowsFormsApp {
     public partial class MyForm : Form {
         private bool CounterRunning = false;
-        private int MaxValue = 0;
-        private int MinValue = 50;
+        private int MaxValue = 50;
+        private int MinValue = 0;
         private List<int> CheatValues = new List<int>();
         private string Data;
 
@@ -48,7 +48,8 @@ namespace WindowsFormsApp {
                 } else {
                     using (FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
                         using (StreamWriter sw = new StreamWriter(fs)) {
-                            sw.WriteLine("1\n50");
+                            sw.WriteLine('1');
+                            sw.WriteLine("50");
                             File.SetAttributes("./data.dat", FileAttributes.Hidden);
                         }
                     }
