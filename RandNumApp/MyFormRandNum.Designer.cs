@@ -36,7 +36,7 @@
             this.ToolStripMenuItemHideIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
-            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemAboutInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.ButtonStart = new System.Windows.Forms.Button();
             this.ButtonStop = new System.Windows.Forms.Button();
             this.label = new System.Windows.Forms.Label();
@@ -106,18 +106,18 @@
             // ToolStripMenuItemHelp
             // 
             this.ToolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.关于ToolStripMenuItem});
+            this.ToolStripMenuItemAboutInfo});
             this.ToolStripMenuItemHelp.Margin = new System.Windows.Forms.Padding(0, -2, 0, 0);
             this.ToolStripMenuItemHelp.Name = "ToolStripMenuItemHelp";
             this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(42, 18);
             this.ToolStripMenuItemHelp.Text = "帮助";
             // 
-            // 关于ToolStripMenuItem
+            // ToolStripMenuItemAboutInfo
             // 
-            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.关于ToolStripMenuItem.Text = "关于";
-            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
+            this.ToolStripMenuItemAboutInfo.Name = "ToolStripMenuItemAboutInfo";
+            this.ToolStripMenuItemAboutInfo.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemAboutInfo.Text = "关于";
+            this.ToolStripMenuItemAboutInfo.Click += new System.EventHandler(this.ToolStripMenuItemAboutInfo_Click);
             // 
             // ButtonStart
             // 
@@ -129,7 +129,6 @@
             this.ButtonStart.TabIndex = 1;
             this.ButtonStart.UseVisualStyleBackColor = true;
             this.ButtonStart.Click += new System.EventHandler(this.ButtonStart_Click);
-            this.ButtonStart.MouseEnter += new System.EventHandler(this.ButtonStart_MouseEnter);
             // 
             // ButtonStop
             // 
@@ -142,7 +141,6 @@
             this.ButtonStop.TabIndex = 2;
             this.ButtonStop.UseVisualStyleBackColor = true;
             this.ButtonStop.Click += new System.EventHandler(this.ButtonStop_Click);
-            this.ButtonStop.MouseEnter += new System.EventHandler(this.ButtonStop_MouseEnter);
             // 
             // label
             // 
@@ -156,7 +154,6 @@
             this.label.Size = new System.Drawing.Size(100, 80);
             this.label.TabIndex = 3;
             this.label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label.MouseEnter += new System.EventHandler(this.label_MouseEnter);
             // 
             // textBoxMinValue
             // 
@@ -180,7 +177,6 @@
             this.labelIndex.TabIndex = 5;
             this.labelIndex.Text = "~";
             this.labelIndex.Visible = false;
-            this.labelIndex.MouseEnter += new System.EventHandler(this.labelIndex_MouseEnter);
             // 
             // textBoxMaxValue
             // 
@@ -217,8 +213,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "魔法学号";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MyForm_FormClosing);
-            this.MouseEnter += new System.EventHandler(this.MyForm_MouseEnter);
-            this.MouseLeave += new System.EventHandler(this.MyForm_MouseLeave);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -235,7 +229,7 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemHideIndex;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemExit;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemHelp;
-        private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemAboutInfo;
         private System.Windows.Forms.Button ButtonStart;
         private System.Windows.Forms.Button ButtonStop;
         private System.Windows.Forms.Label label;

@@ -19,6 +19,12 @@ namespace WindowsFormsApp {
             //忽略线程访问安全机制，允许另一个线程访问其它线程创建的控件而不抛出异常。（影响不大）
 
             LoadData();
+
+            this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+            ButtonStart.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+            ButtonStop.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+            labelIndex.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+            label.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
         }
 
         /// <summary>
@@ -108,6 +114,7 @@ namespace WindowsFormsApp {
                 MinValue = Convert.ToInt32(textBoxMinValue.Text);
                 MaxValue = Convert.ToInt32(textBoxMaxValue.Text);
             } catch (FormatException ex) {
+                //正常情况下不会被触发
                 MessageBox.Show(ex.Message);
             }
         }
@@ -155,30 +162,6 @@ namespace WindowsFormsApp {
             Application.Exit();
         }
 
-        private void MyForm_MouseEnter(object sender, EventArgs e) {
-            Cursor = new Cursor(Properties.Resources.icon.GetHicon());
-        }
-
-        private void MyForm_MouseLeave(object sender, EventArgs e) {
-            Cursor = Cursors.Default;
-        }
-
-        private void ButtonStart_MouseEnter(object sender, EventArgs e) {
-            Cursor = new Cursor(Properties.Resources.icon.GetHicon());
-        }
-
-        private void ButtonStop_MouseEnter(object sender, EventArgs e) {
-            Cursor = new Cursor(Properties.Resources.icon.GetHicon());
-        }
-
-        private void label_MouseEnter(object sender, EventArgs e) {
-            Cursor = new Cursor(Properties.Resources.icon.GetHicon());
-        }
-
-        private void labelIndex_MouseEnter(object sender, EventArgs e) {
-            Cursor = new Cursor(Properties.Resources.icon.GetHicon());
-        }
-
         private void MyForm_FormClosing(object sender, FormClosingEventArgs e) {
             CounterRunning = false;
             SaveData();
@@ -192,7 +175,7 @@ namespace WindowsFormsApp {
             }
         }
 
-        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void ToolStripMenuItemAboutInfo_Click(object sender, EventArgs e) {
             FormInformation form = new FormInformation();
             form.ShowDialog();
         }
