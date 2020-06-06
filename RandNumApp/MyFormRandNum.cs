@@ -191,5 +191,10 @@ namespace WindowsFormsApp {
                 e.Handled = true;
             }
         }
+
+        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e) {
+            FormInformation form = new FormInformation();
+            form.ShowDialog();
+        }
     }
 }
