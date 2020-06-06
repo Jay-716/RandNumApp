@@ -165,6 +165,7 @@
             this.textBoxMinValue.Size = new System.Drawing.Size(38, 21);
             this.textBoxMinValue.TabIndex = 4;
             this.textBoxMinValue.Visible = false;
+            this.textBoxMinValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxMinValue_KeyPress);
             this.textBoxMinValue.Leave += new System.EventHandler(this.IndexValueChange);
             // 
             // labelIndex
@@ -188,6 +189,7 @@
             this.textBoxMaxValue.Size = new System.Drawing.Size(39, 21);
             this.textBoxMaxValue.TabIndex = 6;
             this.textBoxMaxValue.Visible = false;
+            this.textBoxMaxValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxMinValue_KeyPress);
             this.textBoxMaxValue.Leave += new System.EventHandler(this.IndexValueChange);
             // 
             // MyForm

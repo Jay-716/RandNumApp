@@ -30,20 +30,24 @@ namespace WindowsFormsApp {
             try {
                 if (File.Exists("./data.dat")) {
                     using (StreamReader file = new StreamReader("./data.dat")) {
-                        MinValue = Convert.ToInt32(file.ReadLine());
-                        this.textBoxMinValue.Text = MinValue.ToString();
-                        if (file.EndOfStream)
-                            throw new FormatException();//当data.dat只有一行时，抛出格式错误（与Convert的异常处理混用）
-                        MaxValue = Convert.ToInt32(file.ReadLine());
-                        this.textBoxMaxValue.Text = MaxValue.ToString();
+                        int.TryParse(file.ReadLine(), out MinValue);
+                        textBoxMinValue.Text = MinValue.ToString();
+                        if (file.EndOfStream) {
+                            return;
+                        }
+                        int.TryParse(file.ReadLine(), out MaxValue);
+                        textBoxMaxValue.Text = MaxValue.ToString();
+                        if (MaxValue <= MinValue) {
+                            MinValue = 1;
+                            MaxValue = 50;
+                            return;
+                        }
                         while (!file.EndOfStream) {
-                            string num = file.ReadLine();
-                            if (!num.Contains("\n"))
-                                CheatValues.Add(Convert.ToInt32(num));
+                            string strnum = file.ReadLine();
+                            if (int.TryParse(strnum, out int num) && num >= MinValue && num <= MaxValue)
+                                CheatValues.Add(num);
                         }
                         File.SetAttributes("./data.dat", FileAttributes.Hidden);
-                        if (MaxValue <= MinValue)
-                            throw new FormatException();//当范围错误时，抛出格式错误（与Convert的异常处理混用）
                     }
                 } else {
                     using (FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
@@ -56,18 +60,13 @@ namespace WindowsFormsApp {
                 }
             } catch (UnauthorizedAccessException) {
                 //为了更像原版，不作处理
-            } catch (FormatException) {
-                this.MaxValue = 50;
-                this.MinValue = 1;
-                this.textBoxMinValue.Text = MinValue.ToString();
-                this.textBoxMaxValue.Text = MaxValue.ToString();
             }
         }
 
         private void SaveData() {
             try {
-                this.Data = MinValue.ToString() + '\n' + MaxValue.ToString();
-                using (FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
+                Data = MinValue.ToString() + System.Environment.NewLine + MaxValue.ToString();
+                using (FileStream fs = new FileStream("./data.dat", FileMode.Truncate, FileAccess.ReadWrite)) {
                     using (StreamWriter sw = new StreamWriter(fs)) {
                         sw.WriteLine(Data);
                         foreach (var i in CheatValues) {
@@ -78,12 +77,6 @@ namespace WindowsFormsApp {
                 }
             } catch (UnauthorizedAccessException) {
                 //为了更像原版，不作处理
-            } catch (FormatException ex) {
-                this.MaxValue = 50;
-                this.MinValue = 1;
-                this.textBoxMinValue.Text = MinValue.ToString();
-                this.textBoxMaxValue.Text = MaxValue.ToString();
-                MessageBox.Show("请输入合法的数字。\n" + ex.Message);
             }
         }
 
@@ -91,20 +84,29 @@ namespace WindowsFormsApp {
             int min = MinValue;
             int max = MaxValue;
             int num = 0;
+            if (MinValue >= MaxValue) {
+                MinValue = 1;
+                MaxValue = 50;
+                textBoxMinValue.Text = "1";
+                textBoxMaxValue.Text = "50";
+                CounterRunning = false;
+                ButtonStart.Enabled = true;
+                ButtonStop.Enabled = false;
+            }
             Random random = new Random(num);
             while (CounterRunning) {
                 num = random.Next(min, max + 1);
                 while (CheatValues.Contains(num))
                     num = random.Next(min, max + 1);
-                this.label.Text = num.ToString();
+                label.Text = num.ToString();
                 Thread.Sleep(10);
             }
         }
 
         private void IndexValueChange(object sender, EventArgs e) {
             try {
-                this.MinValue = Convert.ToInt32(textBoxMinValue.Text);
-                this.MaxValue = Convert.ToInt32(textBoxMaxValue.Text);
+                MinValue = Convert.ToInt32(textBoxMinValue.Text);
+                MaxValue = Convert.ToInt32(textBoxMaxValue.Text);
             } catch (FormatException ex) {
                 MessageBox.Show(ex.Message);
             }
@@ -112,38 +114,38 @@ namespace WindowsFormsApp {
 
         private void ButtonStart_Click(object sender, EventArgs e) {
             CounterRunning = true;
-            this.ButtonStart.Enabled = false;
-            this.ButtonStop.Enabled = true;
+            ButtonStart.Enabled = false;
+            ButtonStop.Enabled = true;
             Task task = new Task(RandNum);
             task.Start();
         }
 
         private void ButtonStop_Click(object sender, EventArgs e) {
             CounterRunning = false;
-            this.ButtonStart.Enabled = true;
-            this.ButtonStop.Enabled = false;
+            ButtonStart.Enabled = true;
+            ButtonStop.Enabled = false;
         }
 
         private void ToolStripMenuItemShowIndex_Click(object sender, EventArgs e) {
-            this.textBoxMinValue.Text = MinValue.ToString();
-            this.textBoxMaxValue.Text = MaxValue.ToString();
-            this.labelIndex.Visible = true;
-            this.textBoxMinValue.Visible = true;
-            this.textBoxMaxValue.Visible = true;
-            this.textBoxMinValue.Enabled = true;
-            this.textBoxMaxValue.Enabled = true;
-            this.ToolStripMenuItemHideIndex.Enabled = true;
-            this.ToolStripMenuItemShowIndex.Enabled = false;
+            textBoxMinValue.Text = MinValue.ToString();
+            textBoxMaxValue.Text = MaxValue.ToString();
+            labelIndex.Visible = true;
+            textBoxMinValue.Visible = true;
+            textBoxMaxValue.Visible = true;
+            textBoxMinValue.Enabled = true;
+            textBoxMaxValue.Enabled = true;
+            ToolStripMenuItemHideIndex.Enabled = true;
+            ToolStripMenuItemShowIndex.Enabled = false;
         }
 
         private void ToolStripMenuItemHideIndex_Click(object sender, EventArgs e) {
-            this.labelIndex.Visible = false;
-            this.textBoxMinValue.Visible = false;
-            this.textBoxMaxValue.Visible = false;
-            this.textBoxMinValue.Enabled = false;
-            this.textBoxMaxValue.Enabled = false;
-            this.ToolStripMenuItemHideIndex.Enabled = false;
-            this.ToolStripMenuItemShowIndex.Enabled = true;
+            labelIndex.Visible = false;
+            textBoxMinValue.Visible = false;
+            textBoxMaxValue.Visible = false;
+            textBoxMinValue.Enabled = false;
+            textBoxMaxValue.Enabled = false;
+            ToolStripMenuItemHideIndex.Enabled = false;
+            ToolStripMenuItemShowIndex.Enabled = true;
             SaveData();
         }
 
@@ -154,33 +156,40 @@ namespace WindowsFormsApp {
         }
 
         private void MyForm_MouseEnter(object sender, EventArgs e) {
-            this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+            Cursor = new Cursor(Properties.Resources.icon.GetHicon());
         }
 
         private void MyForm_MouseLeave(object sender, EventArgs e) {
-            this.Cursor = Cursors.Default;
+            Cursor = Cursors.Default;
         }
 
         private void ButtonStart_MouseEnter(object sender, EventArgs e) {
-            this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+            Cursor = new Cursor(Properties.Resources.icon.GetHicon());
         }
 
         private void ButtonStop_MouseEnter(object sender, EventArgs e) {
-            this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+            Cursor = new Cursor(Properties.Resources.icon.GetHicon());
         }
 
         private void label_MouseEnter(object sender, EventArgs e) {
-            this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+            Cursor = new Cursor(Properties.Resources.icon.GetHicon());
         }
 
         private void labelIndex_MouseEnter(object sender, EventArgs e) {
-            this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+            Cursor = new Cursor(Properties.Resources.icon.GetHicon());
         }
 
         private void MyForm_FormClosing(object sender, FormClosingEventArgs e) {
             CounterRunning = false;
             SaveData();
             Application.Exit();
+        }
+
+        //限制只能输入数字
+        private void textBoxMinValue_KeyPress(object sender, KeyPressEventArgs e) {
+            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar)) {
+                e.Handled = true;
+            }
         }
     }
 }
