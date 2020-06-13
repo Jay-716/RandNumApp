@@ -11,7 +11,6 @@ namespace WindowsFormsApp {
         private int MaxValue = 50;
         private int MinValue = 1;
         private List<int> CheatValues = new List<int>();
-        private string Data;
 
         public MyForm() {
             InitializeComponent();
@@ -37,12 +36,11 @@ namespace WindowsFormsApp {
                 if (File.Exists("./data.dat")) {
                     using (StreamReader file = new StreamReader("./data.dat")) {
                         int.TryParse(file.ReadLine(), out MinValue);
-                        textBoxMinValue.Text = MinValue.ToString();
                         if (file.EndOfStream) {
+                            MinValue = 1;
                             return;
                         }
                         int.TryParse(file.ReadLine(), out MaxValue);
-                        textBoxMaxValue.Text = MaxValue.ToString();
                         if (MaxValue <= MinValue) {
                             MinValue = 1;
                             MaxValue = 50;
@@ -53,6 +51,8 @@ namespace WindowsFormsApp {
                             if (int.TryParse(strnum, out int num) && num >= MinValue && num <= MaxValue)
                                 CheatValues.Add(num);
                         }
+                        textBoxMinValue.Text = MinValue.ToString();
+                        textBoxMaxValue.Text = MaxValue.ToString();
                         File.SetAttributes("./data.dat", FileAttributes.Hidden);
                     }
                 } else {
@@ -71,10 +71,9 @@ namespace WindowsFormsApp {
 
         private void SaveData() {
             try {
-                Data = MinValue.ToString() + System.Environment.NewLine + MaxValue.ToString();
                 using (FileStream fs = new FileStream("./data.dat", FileMode.Truncate, FileAccess.ReadWrite)) {
                     using (StreamWriter sw = new StreamWriter(fs)) {
-                        sw.WriteLine(Data);
+                        sw.WriteLine(MinValue.ToString() + System.Environment.NewLine + MaxValue.ToString());
                         foreach (var i in CheatValues) {
                             sw.WriteLine(i.ToString());
                         }
@@ -105,7 +104,7 @@ namespace WindowsFormsApp {
                 while (CheatValues.Contains(num))
                     num = random.Next(min, max + 1);
                 label.Text = num.ToString();
-                Thread.Sleep(10);
+                Thread.Sleep(8);
             }
         }
 
