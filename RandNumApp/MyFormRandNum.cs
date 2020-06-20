@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp {
     public partial class MyForm : Form {
-        private bool CounterRunning = false;
+        private bool CounterIsRunning = false;
         private int MaxValue = 50;
         private int MinValue = 1;
         private List<int> CheatValues = new List<int>();
@@ -88,38 +88,35 @@ namespace WindowsFormsApp {
         private void RandNum() {
             int min = MinValue;
             int max = MaxValue;
-            int num = 0;
+            int currentNum = 0;
             if (MinValue >= MaxValue) {
                 MinValue = 1;
                 MaxValue = 50;
                 textBoxMinValue.Text = "1";
                 textBoxMaxValue.Text = "50";
-                CounterRunning = false;
+                CounterIsRunning = false;
                 ButtonStart.Enabled = true;
                 ButtonStop.Enabled = false;
             }
-            Random random = new Random(num);
-            while (CounterRunning) {
-                num = random.Next(min, max + 1);
-                while (CheatValues.Contains(num))
-                    num = random.Next(min, max + 1);
-                label.Text = num.ToString();
+            Random random = new Random(currentNum);
+            while (CounterIsRunning) {
+                currentNum = random.Next(min, max + 1);
+                label.Text = currentNum.ToString();
                 Thread.Sleep(8);
             }
+            while (CheatValues.Contains(currentNum)) {
+                currentNum = random.Next(min, max + 1);
+            }
+            label.Text = currentNum.ToString();
         }
 
         private void IndexValueChange(object sender, EventArgs e) {
-            try {
-                MinValue = Convert.ToInt32(textBoxMinValue.Text);
-                MaxValue = Convert.ToInt32(textBoxMaxValue.Text);
-            } catch (FormatException ex) {
-                //正常情况下不会被触发
-                MessageBox.Show(ex.Message);
-            }
+            MinValue = Convert.ToInt32(textBoxMinValue.Text);
+            MaxValue = Convert.ToInt32(textBoxMaxValue.Text);
         }
 
         private void ButtonStart_Click(object sender, EventArgs e) {
-            CounterRunning = true;
+            CounterIsRunning = true;
             ButtonStart.Enabled = false;
             ButtonStop.Enabled = true;
             Task task = new Task(RandNum);
@@ -127,7 +124,7 @@ namespace WindowsFormsApp {
         }
 
         private void ButtonStop_Click(object sender, EventArgs e) {
-            CounterRunning = false;
+            CounterIsRunning = false;
             ButtonStart.Enabled = true;
             ButtonStop.Enabled = false;
         }
@@ -156,13 +153,13 @@ namespace WindowsFormsApp {
         }
 
         private void ToolStripMenuItemExit_Click(object sender, EventArgs e) {
-            CounterRunning = false;
+            CounterIsRunning = false;
             SaveData();
             Application.Exit();
         }
 
         private void MyForm_FormClosing(object sender, FormClosingEventArgs e) {
-            CounterRunning = false;
+            CounterIsRunning = false;
             SaveData();
             Application.Exit();
         }
