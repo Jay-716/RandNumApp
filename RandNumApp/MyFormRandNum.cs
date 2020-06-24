@@ -10,7 +10,7 @@ namespace WindowsFormsApp {
         private bool CounterIsRunning = false;
         private int MaxValue = 50;
         private int MinValue = 1;
-        private List<int> CheatValues = new List<int>();
+        private readonly List<int> CheatValues = new List<int>();
 
         public MyForm() {
             InitializeComponent();
@@ -104,6 +104,7 @@ namespace WindowsFormsApp {
                 label.Text = currentNum.ToString();
                 Thread.Sleep(8);
             }
+            random = new Random();
             while (CheatValues.Contains(currentNum)) {
                 currentNum = random.Next(min, max + 1);
             }

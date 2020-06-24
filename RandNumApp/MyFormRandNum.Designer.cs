@@ -57,7 +57,6 @@
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.menuStrip.Size = new System.Drawing.Size(332, 20);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
@@ -78,7 +77,7 @@
             this.ToolStripMenuItemShowIndex,
             this.ToolStripMenuItemHideIndex});
             this.范围选项ToolStripMenuItem.Name = "范围选项ToolStripMenuItem";
-            this.范围选项ToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.范围选项ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.范围选项ToolStripMenuItem.Text = "范围选项";
             // 
             // ToolStripMenuItemShowIndex
@@ -99,7 +98,7 @@
             // ToolStripMenuItemExit
             // 
             this.ToolStripMenuItemExit.Name = "ToolStripMenuItemExit";
-            this.ToolStripMenuItemExit.Size = new System.Drawing.Size(120, 22);
+            this.ToolStripMenuItemExit.Size = new System.Drawing.Size(180, 22);
             this.ToolStripMenuItemExit.Text = "退出";
             this.ToolStripMenuItemExit.Click += new System.EventHandler(this.ToolStripMenuItemExit_Click);
             // 
@@ -115,7 +114,7 @@
             // ToolStripMenuItemAboutInfo
             // 
             this.ToolStripMenuItemAboutInfo.Name = "ToolStripMenuItemAboutInfo";
-            this.ToolStripMenuItemAboutInfo.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemAboutInfo.Size = new System.Drawing.Size(98, 22);
             this.ToolStripMenuItemAboutInfo.Text = "关于";
             this.ToolStripMenuItemAboutInfo.Click += new System.EventHandler(this.ToolStripMenuItemAboutInfo_Click);
             // 
