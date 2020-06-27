@@ -64,8 +64,8 @@ namespace WindowsFormsApp {
                         }
                     }
                 }
-            } catch (UnauthorizedAccessException) {
-                //为了更像原版，不作处理
+            } catch (UnauthorizedAccessException ex) {
+                MessageBox.Show(ex.Message, "UnauthorizedAccessException", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -80,8 +80,8 @@ namespace WindowsFormsApp {
                         File.SetAttributes("./data.dat", FileAttributes.Hidden);
                     }
                 }
-            } catch (UnauthorizedAccessException) {
-                //为了更像原版，不作处理
+            } catch (UnauthorizedAccessException ex) {
+                MessageBox.Show(ex.Message + "\nFile IO Exception!", "UnauthorizedAccessException", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -104,7 +104,7 @@ namespace WindowsFormsApp {
                 label.Text = currentNum.ToString();
                 Thread.Sleep(8);
             }
-            random = new Random();
+            random = new Random(DateTime.UtcNow.Millisecond + DateTime.Now.Second);
             while (CheatValues.Contains(currentNum)) {
                 currentNum = random.Next(min, max + 1);
             }
