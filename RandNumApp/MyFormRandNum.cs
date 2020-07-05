@@ -12,8 +12,8 @@ namespace WindowsFormsApp {
         private int MinValue = 1;
         private readonly List<int> AvoidValues = new List<int>();
         private readonly List<int> MoreValues = new List<int>();
-        private int MoreRate = 20;
-        private bool LastMoreResult = false;
+        private int MoreRate = 20;//抽到MoreValues中的数的概率
+        private bool LastMoreResult = false;//表示上一次是否抽到MoreValues中的数
 
         public MyForm() {
             InitializeComponent();
@@ -77,7 +77,7 @@ namespace WindowsFormsApp {
                         }
                         //读取More
                         //读取概率
-                        if (indexOfMore + 1 != indexOfRange && indexOfMore + 1 != indexOfAvoid && int.TryParse(fileStrLines[indexOfMore + 1], out int rate) && rate > 0 && rate <= 100) {
+                        if (indexOfMore + 1 < fileStrLines.Count && indexOfMore + 1 != indexOfRange && indexOfMore + 1 != indexOfAvoid && int.TryParse(fileStrLines[indexOfMore + 1], out int rate) && rate > 0 && rate <= 100) {
                             MoreRate = rate;
                         } else {
                             return;
@@ -173,7 +173,7 @@ namespace WindowsFormsApp {
             label.Text = result.ToString();
         }
 
-        private void IndexValueChange(object sender, EventArgs e) {
+        private void TextBox_ValueChanged(object sender, EventArgs e) {
             MinValue = Convert.ToInt32(textBoxMinValue.Text);
             MaxValue = Convert.ToInt32(textBoxMaxValue.Text);
         }
@@ -228,7 +228,7 @@ namespace WindowsFormsApp {
         }
 
         //限制只能输入数字
-        private void textBoxMinValue_KeyPress(object sender, KeyPressEventArgs e) {
+        private void TextBoxMinValue_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar)) {
                 e.Handled = true;
             }
