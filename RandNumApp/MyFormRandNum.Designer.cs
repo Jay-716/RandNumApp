@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MyForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.范围选项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemIndexSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemShowIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemHideIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,7 +41,7 @@
             this.ButtonStop = new System.Windows.Forms.Button();
             this.label = new System.Windows.Forms.Label();
             this.textBoxMinValue = new System.Windows.Forms.TextBox();
-            this.labelIndex = new System.Windows.Forms.Label();
+            this.labelRange = new System.Windows.Forms.Label();
             this.textBoxMaxValue = new System.Windows.Forms.TextBox();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -64,7 +64,7 @@
             // toolStripMenuItemSettings
             // 
             this.toolStripMenuItemSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.范围选项ToolStripMenuItem,
+            this.ToolStripMenuItemIndexSettings,
             this.ToolStripMenuItemExit});
             this.toolStripMenuItemSettings.Margin = new System.Windows.Forms.Padding(0, -2, 0, 0);
             this.toolStripMenuItemSettings.Name = "toolStripMenuItemSettings";
@@ -73,12 +73,12 @@
             // 
             // 范围选项ToolStripMenuItem
             // 
-            this.范围选项ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemIndexSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItemShowIndex,
             this.ToolStripMenuItemHideIndex});
-            this.范围选项ToolStripMenuItem.Name = "范围选项ToolStripMenuItem";
-            this.范围选项ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.范围选项ToolStripMenuItem.Text = "范围选项";
+            this.ToolStripMenuItemIndexSettings.Name = "范围选项ToolStripMenuItem";
+            this.ToolStripMenuItemIndexSettings.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemIndexSettings.Text = "范围选项";
             // 
             // ToolStripMenuItemShowIndex
             // 
@@ -167,15 +167,15 @@
             // 
             // labelIndex
             // 
-            this.labelIndex.AutoSize = true;
-            this.labelIndex.BackColor = System.Drawing.Color.Transparent;
-            this.labelIndex.Font = new System.Drawing.Font("宋体", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labelIndex.Location = new System.Drawing.Point(115, 33);
-            this.labelIndex.Name = "labelIndex";
-            this.labelIndex.Size = new System.Drawing.Size(28, 29);
-            this.labelIndex.TabIndex = 5;
-            this.labelIndex.Text = "~";
-            this.labelIndex.Visible = false;
+            this.labelRange.AutoSize = true;
+            this.labelRange.BackColor = System.Drawing.Color.Transparent;
+            this.labelRange.Font = new System.Drawing.Font("宋体", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labelRange.Location = new System.Drawing.Point(115, 33);
+            this.labelRange.Name = "labelIndex";
+            this.labelRange.Size = new System.Drawing.Size(28, 29);
+            this.labelRange.TabIndex = 5;
+            this.labelRange.Text = "~";
+            this.labelRange.Visible = false;
             // 
             // textBoxMaxValue
             // 
@@ -196,7 +196,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(332, 421);
             this.Controls.Add(this.textBoxMaxValue);
-            this.Controls.Add(this.labelIndex);
+            this.Controls.Add(this.labelRange);
             this.Controls.Add(this.textBoxMinValue);
             this.Controls.Add(this.label);
             this.Controls.Add(this.ButtonStop);
@@ -223,7 +223,7 @@
 
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSettings;
-        private System.Windows.Forms.ToolStripMenuItem 范围选项ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemIndexSettings;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemShowIndex;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemHideIndex;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemExit;
@@ -233,7 +233,7 @@
         private System.Windows.Forms.Button ButtonStop;
         private System.Windows.Forms.Label label;
         private System.Windows.Forms.TextBox textBoxMinValue;
-        private System.Windows.Forms.Label labelIndex;
+        private System.Windows.Forms.Label labelRange;
         private System.Windows.Forms.TextBox textBoxMaxValue;
     }
 }

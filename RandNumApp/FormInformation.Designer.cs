@@ -37,9 +37,9 @@
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(481, 211);
             this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "制作者 : Jay\n\n制作语言：C#\n\n介绍：\n相比于原版的魔法学号，本软件添加了范围保存功能，再也不用每次打开都要改范围了。\n\n本项目开源，Github地址：h" +
-    "ttps://github.com/Jay-716/RandNumApp\n技术支持：https://github.com/Jay-716/RandNumApp/" +
-    "issues";
+            this.richTextBox1.Text = "制作者 : Jay\n制作语言：C#\n版本：1.2.3\n介绍：\n相比于原版的魔法学号，本软件添加了范围保存功能，再也不用每次打开都要改范围了。\n\n本项目开源，Git" +
+    "hub地址：https://github.com/Jay-716/RandNumApp\n技术支持：https://github.com/Jay-716/Rand" +
+    "NumApp/issues";
             // 
             // FormInformation
             // 

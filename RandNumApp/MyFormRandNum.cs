@@ -10,7 +10,10 @@ namespace WindowsFormsApp {
         private bool CounterIsRunning = false;
         private int MaxValue = 50;
         private int MinValue = 1;
-        private readonly List<int> CheatValues = new List<int>();
+        private readonly List<int> AvoidValues = new List<int>();
+        private readonly List<int> MoreValues = new List<int>();
+        private int MoreRate = 20;
+        private bool LastMoreResult = false;
 
         public MyForm() {
             InitializeComponent();
@@ -19,48 +22,84 @@ namespace WindowsFormsApp {
 
             LoadData();
 
-            this.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
-            ButtonStart.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
-            ButtonStop.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
-            labelIndex.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
-            label.Cursor = new Cursor(Properties.Resources.icon.GetHicon());
+            Cursor cursor = new Cursor(Properties.Resources.icon.GetHicon());
+            this.Cursor = cursor;
+            ButtonStart.Cursor = cursor;
+            ButtonStop.Cursor = cursor;
+            labelRange.Cursor = cursor;
+            label.Cursor = cursor;
         }
 
         /// <summary>
         /// 读取数据文件
-        /// 前两行为范围
-        /// 其余为不会被抽到的数
+        /// 文件中必须有"Range:", "Avoid:", "More:"三个标识符，顺序不限
+        /// "Range:"后跟两个数表示范围
+        /// "Avoid:"后跟任意个数的数表示不会被抽到的数
+        /// "More:"后跟概率(1~100)与要抽到更多的数
         /// </summary>
         private void LoadData() {
             try {
-                if (File.Exists("./data.dat")) {
-                    using (StreamReader file = new StreamReader("./data.dat")) {
-                        int.TryParse(file.ReadLine(), out MinValue);
-                        if (file.EndOfStream) {
-                            MinValue = 1;
+                if (File.Exists("./Data.dat") && File.OpenRead("./Data.dat").Length <= 256) {
+                    using (StreamReader file = new StreamReader("./Data.dat")) {
+                        List<string> fileStrLines = new List<string>();
+                        while (!file.EndOfStream) {
+                            fileStrLines.Add(file.ReadLine());
+                        }
+
+                        int indexOfRange = fileStrLines.IndexOf("Range:");
+                        int indexOfAvoid = fileStrLines.IndexOf("Avoid:");
+                        int indexOfMore = fileStrLines.IndexOf("More:");
+
+                        //判断是否存在三个标识符
+                        if (indexOfRange == -1 || indexOfAvoid == -1 || indexOfMore == -1) {
+                            MessageBox.Show("Data.dat Syntax Error", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             return;
                         }
-                        int.TryParse(file.ReadLine(), out MaxValue);
-                        if (MaxValue <= MinValue) {
+                        //读取Range
+                        if (!(int.TryParse(fileStrLines[indexOfRange + 1], out MinValue) && int.TryParse(fileStrLines[indexOfRange + 2], out MaxValue))) {
                             MinValue = 1;
                             MaxValue = 50;
+                            MessageBox.Show("Data.dat Syntax Error", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             return;
                         }
-                        while (!file.EndOfStream) {
-                            string strnum = file.ReadLine();
-                            if (int.TryParse(strnum, out int num) && num >= MinValue && num <= MaxValue)
-                                CheatValues.Add(num);
+                        if (MinValue >= MaxValue) {
+                            MinValue = 1;
+                            MaxValue = 50;
+                            MessageBox.Show("Data.dat Value Error", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return;
                         }
-                        textBoxMinValue.Text = MinValue.ToString();
-                        textBoxMaxValue.Text = MaxValue.ToString();
-                        File.SetAttributes("./data.dat", FileAttributes.Hidden);
+                        //读取Avoid
+                        for (int i = indexOfAvoid + 1; i != indexOfRange && i != indexOfMore && i < fileStrLines.Count; i++) {
+                            bool convertIsSuccessful = int.TryParse(fileStrLines[i], out int num);
+                            if (num >= MinValue && num <= MaxValue && convertIsSuccessful) {
+                                AvoidValues.Add(num);
+                            }
+                        }
+                        //读取More
+                        //读取概率
+                        if (indexOfMore + 1 != indexOfRange && indexOfMore + 1 != indexOfAvoid && int.TryParse(fileStrLines[indexOfMore + 1], out int rate) && rate > 0 && rate <= 100) {
+                            MoreRate = rate;
+                        } else {
+                            return;
+                        }
+                        for (int i = indexOfMore + 2; i != indexOfRange && i != indexOfAvoid && i < fileStrLines.Count; i++) {
+                            bool convertIsSuccessful = int.TryParse(fileStrLines[i], out int num);
+                            if (num >= MinValue && num <= MaxValue && convertIsSuccessful) {
+                                MoreValues.Add(num);
+                            }
+                        }
+
+                        File.SetAttributes("./Data.dat", FileAttributes.Hidden);
                     }
                 } else {
-                    using (FileStream fs = new FileStream("./data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
+                    using (FileStream fs = new FileStream("./Data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
                         using (StreamWriter sw = new StreamWriter(fs)) {
+                            sw.WriteLine("Range:");
                             sw.WriteLine('1');
                             sw.WriteLine("50");
-                            File.SetAttributes("./data.dat", FileAttributes.Hidden);
+                            sw.WriteLine("Avoid:");
+                            sw.WriteLine("More:");
+                            File.SetAttributes("./Data.dat", FileAttributes.Hidden);
                         }
                     }
                 }
@@ -71,13 +110,21 @@ namespace WindowsFormsApp {
 
         private void SaveData() {
             try {
-                using (FileStream fs = new FileStream("./data.dat", FileMode.Truncate, FileAccess.ReadWrite)) {
+                using (FileStream fs = new FileStream("./Data.dat", FileMode.Truncate, FileAccess.ReadWrite)) {
                     using (StreamWriter sw = new StreamWriter(fs)) {
-                        sw.WriteLine(MinValue.ToString() + System.Environment.NewLine + MaxValue.ToString());
-                        foreach (var i in CheatValues) {
+                        sw.WriteLine("Range:");
+                        sw.WriteLine(MinValue.ToString());
+                        sw.WriteLine(MaxValue.ToString());
+                        sw.WriteLine("Avoid:");
+                        foreach (var i in AvoidValues) {
                             sw.WriteLine(i.ToString());
                         }
-                        File.SetAttributes("./data.dat", FileAttributes.Hidden);
+                        sw.WriteLine("More:");
+                        sw.WriteLine(MoreRate.ToString());
+                        foreach (var i in MoreValues) {
+                            sw.WriteLine(i.ToString());
+                        }
+                        File.SetAttributes("./Data.dat", FileAttributes.Hidden);
                     }
                 }
             } catch (UnauthorizedAccessException ex) {
@@ -88,7 +135,8 @@ namespace WindowsFormsApp {
         private void RandNum() {
             int min = MinValue;
             int max = MaxValue;
-            int currentNum = 0;
+            int currentNum;
+            int result;
             if (MinValue >= MaxValue) {
                 MinValue = 1;
                 MaxValue = 50;
@@ -98,17 +146,31 @@ namespace WindowsFormsApp {
                 ButtonStart.Enabled = true;
                 ButtonStop.Enabled = false;
             }
-            Random random = new Random(currentNum);
+
+            //在未按下停止按钮之前就确定最终结果
+            Random realRandom = new Random(DateTime.UtcNow.Millisecond + DateTime.Now.Second);
+            if ((!LastMoreResult) && MoreValues.Count != 0 && realRandom.Next(1, 101) <= MoreRate) {
+                result = MoreValues[realRandom.Next(0, MoreValues.Count)];
+                if (result < min || result > max) {
+                    result = realRandom.Next(min, max + 1);
+                }
+                LastMoreResult = true;
+            } else {
+                result = realRandom.Next(min, max + 1);
+                LastMoreResult = false;
+            }
+            while (AvoidValues.Contains(result)) {
+                result = realRandom.Next(min, max + 1);
+            }
+
+            Random random = new Random();
             while (CounterIsRunning) {
                 currentNum = random.Next(min, max + 1);
                 label.Text = currentNum.ToString();
                 Thread.Sleep(8);
             }
-            random = new Random(DateTime.UtcNow.Millisecond + DateTime.Now.Second);
-            while (CheatValues.Contains(currentNum)) {
-                currentNum = random.Next(min, max + 1);
-            }
-            label.Text = currentNum.ToString();
+
+            label.Text = result.ToString();
         }
 
         private void IndexValueChange(object sender, EventArgs e) {
@@ -133,7 +195,7 @@ namespace WindowsFormsApp {
         private void ToolStripMenuItemShowIndex_Click(object sender, EventArgs e) {
             textBoxMinValue.Text = MinValue.ToString();
             textBoxMaxValue.Text = MaxValue.ToString();
-            labelIndex.Visible = true;
+            labelRange.Visible = true;
             textBoxMinValue.Visible = true;
             textBoxMaxValue.Visible = true;
             textBoxMinValue.Enabled = true;
@@ -143,7 +205,7 @@ namespace WindowsFormsApp {
         }
 
         private void ToolStripMenuItemHideIndex_Click(object sender, EventArgs e) {
-            labelIndex.Visible = false;
+            labelRange.Visible = false;
             textBoxMinValue.Visible = false;
             textBoxMaxValue.Visible = false;
             textBoxMinValue.Enabled = false;
