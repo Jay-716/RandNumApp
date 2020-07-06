@@ -39,7 +39,7 @@ namespace WindowsFormsApp {
         /// </summary>
         private void LoadData() {
             try {
-                if (File.Exists("./Data.dat") && File.OpenRead("./Data.dat").Length <= 256) {
+                if (File.Exists("./Data.dat")) {
                     using (StreamReader file = new StreamReader("./Data.dat")) {
                         List<string> fileStrLines = new List<string>();
                         while (!file.EndOfStream) {
@@ -75,13 +75,13 @@ namespace WindowsFormsApp {
                                 AvoidValues.Add(num);
                             }
                         }
-                        //读取More
                         //读取概率
                         if (indexOfMore + 1 < fileStrLines.Count && indexOfMore + 1 != indexOfRange && indexOfMore + 1 != indexOfAvoid && int.TryParse(fileStrLines[indexOfMore + 1], out int rate) && rate > 0 && rate <= 100) {
                             MoreRate = rate;
                         } else {
                             return;
                         }
+                        //读取More
                         for (int i = indexOfMore + 2; i != indexOfRange && i != indexOfAvoid && i < fileStrLines.Count; i++) {
                             bool convertIsSuccessful = int.TryParse(fileStrLines[i], out int num);
                             if (num >= MinValue && num <= MaxValue && convertIsSuccessful) {
@@ -110,7 +110,7 @@ namespace WindowsFormsApp {
 
         private void SaveData() {
             try {
-                using (FileStream fs = new FileStream("./Data.dat", FileMode.Truncate, FileAccess.ReadWrite)) {
+                using (FileStream fs = new FileStream("./Data.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
                     using (StreamWriter sw = new StreamWriter(fs)) {
                         sw.WriteLine("Range:");
                         sw.WriteLine(MinValue.ToString());
@@ -135,7 +135,6 @@ namespace WindowsFormsApp {
         private void RandNum() {
             int min = MinValue;
             int max = MaxValue;
-            int currentNum;
             int result;
             if (MinValue >= MaxValue) {
                 MinValue = 1;
@@ -165,8 +164,7 @@ namespace WindowsFormsApp {
 
             Random random = new Random();
             while (CounterIsRunning) {
-                currentNum = random.Next(min, max + 1);
-                label.Text = currentNum.ToString();
+                label.Text = random.Next(min, max + 1).ToString();
                 Thread.Sleep(8);
             }
 
@@ -182,8 +180,7 @@ namespace WindowsFormsApp {
             CounterIsRunning = true;
             ButtonStart.Enabled = false;
             ButtonStop.Enabled = true;
-            Task task = new Task(RandNum);
-            task.Start();
+            (new Task(RandNum)).Start();
         }
 
         private void ButtonStop_Click(object sender, EventArgs e) {
@@ -216,14 +213,7 @@ namespace WindowsFormsApp {
         }
 
         private void ToolStripMenuItemExit_Click(object sender, EventArgs e) {
-            CounterIsRunning = false;
-            SaveData();
-            Application.Exit();
-        }
-
-        private void MyForm_FormClosing(object sender, FormClosingEventArgs e) {
-            CounterIsRunning = false;
-            SaveData();
+            //Application.Exit()方法会关闭窗体，自动调用MyForm_FormClosed
             Application.Exit();
         }
 
@@ -237,6 +227,12 @@ namespace WindowsFormsApp {
         private void ToolStripMenuItemAboutInfo_Click(object sender, EventArgs e) {
             FormInformation form = new FormInformation();
             form.ShowDialog();
+        }
+
+        private void MyForm_FormClosed(object sender, FormClosedEventArgs e) {
+            CounterIsRunning = false;
+            SaveData();
+            Application.Exit();
         }
     }
 }

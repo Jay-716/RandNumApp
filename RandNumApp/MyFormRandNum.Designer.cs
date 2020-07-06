@@ -71,13 +71,13 @@
             this.toolStripMenuItemSettings.Size = new System.Drawing.Size(42, 18);
             this.toolStripMenuItemSettings.Text = "设置";
             // 
-            // 范围选项ToolStripMenuItem
+            // ToolStripMenuItemIndexSettings
             // 
             this.ToolStripMenuItemIndexSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItemShowIndex,
             this.ToolStripMenuItemHideIndex});
-            this.ToolStripMenuItemIndexSettings.Name = "范围选项ToolStripMenuItem";
-            this.ToolStripMenuItemIndexSettings.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemIndexSettings.Name = "ToolStripMenuItemIndexSettings";
+            this.ToolStripMenuItemIndexSettings.Size = new System.Drawing.Size(120, 22);
             this.ToolStripMenuItemIndexSettings.Text = "范围选项";
             // 
             // ToolStripMenuItemShowIndex
@@ -98,7 +98,7 @@
             // ToolStripMenuItemExit
             // 
             this.ToolStripMenuItemExit.Name = "ToolStripMenuItemExit";
-            this.ToolStripMenuItemExit.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemExit.Size = new System.Drawing.Size(120, 22);
             this.ToolStripMenuItemExit.Text = "退出";
             this.ToolStripMenuItemExit.Click += new System.EventHandler(this.ToolStripMenuItemExit_Click);
             // 
@@ -165,13 +165,13 @@
             this.textBoxMinValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxMinValue_KeyPress);
             this.textBoxMinValue.Leave += new System.EventHandler(this.TextBox_ValueChanged);
             // 
-            // labelIndex
+            // labelRange
             // 
             this.labelRange.AutoSize = true;
             this.labelRange.BackColor = System.Drawing.Color.Transparent;
             this.labelRange.Font = new System.Drawing.Font("宋体", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labelRange.Location = new System.Drawing.Point(115, 33);
-            this.labelRange.Name = "labelIndex";
+            this.labelRange.Name = "labelRange";
             this.labelRange.Size = new System.Drawing.Size(28, 29);
             this.labelRange.TabIndex = 5;
             this.labelRange.Text = "~";
@@ -211,7 +211,7 @@
             this.Name = "MyForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "魔法学号";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MyForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MyForm_FormClosed);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);

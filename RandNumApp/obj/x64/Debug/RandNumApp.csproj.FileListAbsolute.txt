@@ -1,10 +1,10 @@
-G:\RandNumApp\RandNumApp\bin\x64\Debug\WindowsFormsApp.exe.config
-G:\RandNumApp\RandNumApp\bin\x64\Debug\WindowsFormsApp.exe
-G:\RandNumApp\RandNumApp\bin\x64\Debug\WindowsFormsApp.pdb
 G:\RandNumApp\RandNumApp\obj\x64\Debug\WindowsFormsApp.FormInformation.resources
 G:\RandNumApp\RandNumApp\obj\x64\Debug\WindowsFormsApp.MyForm.resources
 G:\RandNumApp\RandNumApp\obj\x64\Debug\WindowsFormsApp.Properties.Resources.resources
 G:\RandNumApp\RandNumApp\obj\x64\Debug\RandNumApp.csproj.GenerateResource.cache
 G:\RandNumApp\RandNumApp\obj\x64\Debug\RandNumApp.csproj.CoreCompileInputs.cache
-G:\RandNumApp\RandNumApp\obj\x64\Debug\WindowsFormsApp.exe
-G:\RandNumApp\RandNumApp\obj\x64\Debug\WindowsFormsApp.pdb
+G:\RandNumApp\RandNumApp\bin\x64\Debug\RandNumApp.exe.config
+G:\RandNumApp\RandNumApp\bin\x64\Debug\RandNumApp.exe
+G:\RandNumApp\RandNumApp\bin\x64\Debug\RandNumApp.pdb
+G:\RandNumApp\RandNumApp\obj\x64\Debug\RandNumApp.exe
+G:\RandNumApp\RandNumApp\obj\x64\Debug\RandNumApp.pdb
