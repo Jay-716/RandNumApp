@@ -57,7 +57,7 @@
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(332, 20);
+            this.menuStrip.Size = new System.Drawing.Size(348, 20);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -202,6 +202,7 @@
             this.Controls.Add(this.ButtonStop);
             this.Controls.Add(this.ButtonStart);
             this.Controls.Add(this.menuStrip);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;

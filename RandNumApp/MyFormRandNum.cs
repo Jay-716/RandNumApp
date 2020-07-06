@@ -56,7 +56,7 @@ namespace WindowsFormsApp {
                             return;
                         }
                         //读取Range
-                        if (!(int.TryParse(fileStrLines[indexOfRange + 1], out MinValue) && int.TryParse(fileStrLines[indexOfRange + 2], out MaxValue))) {
+                        if (!(indexOfRange + 2 < fileStrLines.Count && int.TryParse(fileStrLines[indexOfRange + 1], out MinValue) && int.TryParse(fileStrLines[indexOfRange + 2], out MaxValue))) {
                             MinValue = 1;
                             MaxValue = 50;
                             MessageBox.Show("Data.dat Syntax Error", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
