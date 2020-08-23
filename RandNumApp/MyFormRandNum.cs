@@ -70,8 +70,7 @@ namespace WindowsFormsApp {
                         }
                         //读取Avoid
                         for (int i = indexOfAvoid + 1; i != indexOfRange && i != indexOfMore && i < fileStrLines.Count; i++) {
-                            bool convertIsSuccessful = int.TryParse(fileStrLines[i], out int num);
-                            if (convertIsSuccessful && num >= MinValue && num <= MaxValue) {
+                            if (int.TryParse(fileStrLines[i], out int num) && num >= MinValue && num <= MaxValue) {
                                 AvoidValues.Add(num);
                             }
                         }
@@ -83,8 +82,7 @@ namespace WindowsFormsApp {
                         }
                         //读取More
                         for (int i = indexOfMore + 2; i != indexOfRange && i != indexOfAvoid && i < fileStrLines.Count; i++) {
-                            bool convertIsSuccessful = int.TryParse(fileStrLines[i], out int num);
-                            if (num >= MinValue && num <= MaxValue && convertIsSuccessful) {
+                            if (int.TryParse(fileStrLines[i], out int num) && num >= MinValue && num <= MaxValue) {
                                 MoreValues.Add(num);
                             }
                         }
