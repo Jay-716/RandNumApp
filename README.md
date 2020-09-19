@@ -2,24 +2,6 @@
 ### 抽学号软件 魔法学号 的复刻版，添加了作弊功能。
 - 项目可以被Visual Studio打开。
 
-- 运行后会在同一目录下生成一个隐藏的Data.dat文件
+- 运行后会在%appdata%\RandNumApp\目录下生成配置文件
 
-- 文件中必须有"Range:", "Avoid:", "More:"三个标识符，顺序不限
-
-- "Range:"后跟两个数表示范围
-
-- "Avoid:"后跟任意个数的数表示不会被抽到的数
-
-- "More:"后跟概率(1~100)与要抽到更多的数
-
-#### 示例
-```
-Range:
-1
-54
-Avoid:
-38
-More:
-33
-31
-```
+- 如需修改配置，请使用RandNumApp.Configurator.exe
