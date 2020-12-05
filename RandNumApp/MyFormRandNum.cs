@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,12 +18,14 @@ namespace WindowsFormsApp {
         private int MoreRate = 30;//抽到MoreValues中的数的概率
         private bool LastMoreResult = false;//表示上一次是否抽到MoreValues中的数
         private string DataFilePath = "";
+        private readonly Logger Logger = new Logger();
 
         public MyForm() {
             InitializeComponent();
             System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;
             //忽略线程访问安全机制，允许另一个线程访问其它线程创建的控件而不抛出异常。（影响不大）
 
+            Logger.Write("Start", Logger.LogLevel.Information);
             DataFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/RandNumApp/";
             LoadData();
 
@@ -35,8 +35,6 @@ namespace WindowsFormsApp {
             ButtonStop.Cursor = cursor;
             labelRange.Cursor = cursor;
             label.Cursor = cursor;
-
-
         }
 
         /// <summary>
@@ -44,8 +42,10 @@ namespace WindowsFormsApp {
         /// </summary>
         private void LoadData() {
             try {
+                Logger.Write("Loading data from " + DataFilePath, Logger.LogLevel.Information);
                 if (!Directory.Exists(DataFilePath)) {
                     Directory.CreateDirectory(DataFilePath);
+                    Logger.Write("Create directory " + DataFilePath, Logger.LogLevel.Information);
                 }
 
                 //读取范围
@@ -73,8 +73,11 @@ namespace WindowsFormsApp {
                                 MaxValue = 50;
                             }
                         } else {
+                            Logger.Write("Range file syntax error", Logger.LogLevel.Warning);
                             return;
                         }
+
+                        Logger.Write(string.Format("Read range {0}-{1}", MinValue, MaxValue), Logger.LogLevel.Information);
                     }
                 } else {
                     using (FileStream fs = new FileStream(DataFilePath + "range.conf", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
@@ -83,6 +86,7 @@ namespace WindowsFormsApp {
                             sw.WriteLine("50");
                         }
                     }
+                    Logger.Write("Create range.conf", Logger.LogLevel.Information);
                 }
 
                 //读取密钥
@@ -109,7 +113,9 @@ namespace WindowsFormsApp {
                             }
                             sw.WriteLine(key);
                         }
+                        Logger.Write("Regenerate key", Logger.LogLevel.Information);
                     }
+                    Logger.Write("Load key", Logger.LogLevel.Information);
                 } else {
                     using (FileStream fsw = new FileStream(DataFilePath + "key.conf", FileMode.Create, FileAccess.Write)) {
                         string key = "";
@@ -122,6 +128,7 @@ namespace WindowsFormsApp {
                             Key = key;
                         }
                     }
+                    Logger.Write("Create key.conf", Logger.LogLevel.Information);
                 }
 
                 //读取后门文件 - avoid
@@ -135,12 +142,16 @@ namespace WindowsFormsApp {
 
                         if (fileStrs.Count == 0) {
                             HasAvoid = false;
+                            Logger.Write("No avoid values", Logger.LogLevel.Information);
                         } else {
+                            string logAvoid = "";
                             foreach (string str in fileStrs) {
                                 if (int.TryParse(DataManage.Decrypt(str.ToCharArray(), Key), out int num)) {
                                     AvoidValues.Add(num);
+                                    logAvoid += num.ToString() + " ";
                                 }
                             }
+                            Logger.Write("Load avoid values - " + logAvoid, Logger.LogLevel.Information);
                         }
                     }
                 }
@@ -154,17 +165,21 @@ namespace WindowsFormsApp {
                             fileStrs.Add(fs.ReadLine());
                         }
 
-                        if (fileStrs.Count == 1) {
+                        if (fileStrs.Count <= 1) {
                             HasMore = false;
+                            Logger.Write("No more values", Logger.LogLevel.Information);
                         } else {
+                            string logMore = "";
                             if (int.TryParse(DataManage.Decrypt(fileStrs[0].ToCharArray(), Key), out int rate)) {
                                 MoreRate = rate;
                             }
                             for (int i = 1; i < fileStrs.Count; i++) {
                                 if (int.TryParse(DataManage.Decrypt(fileStrs[i].ToCharArray(), Key), out int num)) {
                                     MoreValues.Add(num);
+                                    logMore += num.ToString();
                                 }
                             }
+                            Logger.Write("Load more values - " + logMore, Logger.LogLevel.Information);
                         }
                     }
                 }
@@ -177,8 +192,12 @@ namespace WindowsFormsApp {
                 }
             } catch (UnauthorizedAccessException ex) {
                 MessageBox.Show(ex.Message, "UnauthorizedAccessException", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logger.Write("UnauthorizedAccessException in LoadData()", Logger.LogLevel.Exception);
+                Logger.Write(ex.ToString(), Logger.LogLevel.Exception);
             } catch (Exception ex) {
                 MessageBox.Show(ex.ToString(), "UnHandledException", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logger.Write("UnhandledException in LoadData()", Logger.LogLevel.Exception);
+                Logger.Write(ex.ToString(), Logger.LogLevel.Exception);
             }
         }
 
@@ -188,6 +207,7 @@ namespace WindowsFormsApp {
                     using (StreamWriter sw = new StreamWriter(fs)) {
                         sw.WriteLine(MinValue.ToString());
                         sw.WriteLine(MaxValue.ToString());
+                        Logger.Write("Save range", Logger.LogLevel.Information);
                     }
                 }
                 if (HasAvoid) {
@@ -198,6 +218,7 @@ namespace WindowsFormsApp {
                             }
                         }
                     }
+                    Logger.Write("Save avoid values", Logger.LogLevel.Information);
                 }
                 if (HasMore) {
                     using (FileStream fs = new FileStream(DataFilePath + "more.conf", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
@@ -208,11 +229,16 @@ namespace WindowsFormsApp {
                             }
                         }
                     }
+                    Logger.Write("Save more values", Logger.LogLevel.Information);
                 }
             } catch (UnauthorizedAccessException ex) {
                 MessageBox.Show(ex.Message + "\nFile IO Exception!", "UnauthorizedAccessException", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logger.Write("UnauthorizedAccessException in SaveData()", Logger.LogLevel.Exception);
+                Logger.Write(ex.ToString(), Logger.LogLevel.Exception);
             } catch (Exception ex) {
                 MessageBox.Show(ex.ToString(), "UnHandledException", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logger.Write("UnhandledException in SaveData()", Logger.LogLevel.Exception);
+                Logger.Write(ex.ToString(), Logger.LogLevel.Exception);
             }
         }
 
@@ -238,13 +264,16 @@ namespace WindowsFormsApp {
                     result = realRandom.Next(min, max + 1);
                 }
                 LastMoreResult = true;
+                Logger.Write("Hit more values - " + result.ToString(), Logger.LogLevel.Information);
             } else {
                 result = realRandom.Next(min, max + 1);
                 LastMoreResult = false;
             }
             while (HasAvoid && AvoidValues.Contains(result)) {
+                Logger.Write("Avoid value - " + result.ToString(), Logger.LogLevel.Information);
                 result = realRandom.Next(min, max + 1);
             }
+            Logger.Write("Last result - " + result.ToString(), Logger.LogLevel.Information);
 
             Random random = new Random();
             while (CounterIsRunning) {
@@ -258,6 +287,7 @@ namespace WindowsFormsApp {
         private void TextBox_ValueChanged(object sender, EventArgs e) {
             MinValue = Convert.ToInt32(textBoxMinValue.Text);
             MaxValue = Convert.ToInt32(textBoxMaxValue.Text);
+            Logger.Write(string.Format("Range changed to {0}-{1}", MinValue, MaxValue), Logger.LogLevel.Information);
         }
 
         private void ButtonStart_Click(object sender, EventArgs e) {
@@ -265,12 +295,14 @@ namespace WindowsFormsApp {
             ButtonStart.Enabled = false;
             ButtonStop.Enabled = true;
             (new Task(RandNum)).Start();
+            Logger.Write("Start button clicked", Logger.LogLevel.Information);
         }
 
         private void ButtonStop_Click(object sender, EventArgs e) {
             CounterIsRunning = false;
             ButtonStart.Enabled = true;
             ButtonStop.Enabled = false;
+            Logger.Write("Stop button clicked", Logger.LogLevel.Information);
         }
 
         private void ToolStripMenuItemShowIndex_Click(object sender, EventArgs e) {
@@ -316,8 +348,10 @@ namespace WindowsFormsApp {
         private void MyForm_FormClosed(object sender, FormClosedEventArgs e) {
             CounterIsRunning = false;
             this.Hide();
+            Logger.Write("Exit", Logger.LogLevel.Information);
+            Logger.Flush();
             SaveData();
-            Thread.Sleep(1000);//等待RandNum()退出
+            Thread.Sleep(3000);
         }
     }
 
@@ -340,6 +374,54 @@ namespace WindowsFormsApp {
             }
 
             return new string(data);
+        }
+    }
+
+    public class Logger {
+        private string LogFilePath = "";
+        private readonly List<string> Buffer = new List<string>();
+
+        public Logger() {
+            LogFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/RandNumApp/logs/";
+            if (!Directory.Exists(LogFilePath)) {
+                Directory.CreateDirectory(LogFilePath);
+            }
+
+            LogFilePath += string.Format("Log-{0}.log", DateTime.Now.ToString()).Replace('/', '.').Replace(' ', '.').Replace(':', '.');
+        }
+
+        public enum LogLevel {
+            Information,
+            Warning,
+            Exception,
+        }
+
+        public void Write(string message, LogLevel logLevel) {
+            switch (logLevel) {
+                case LogLevel.Information:
+                    Buffer.Add(DateTime.Now.ToString() + " Information: " + message);
+                    break;
+                case LogLevel.Warning:
+                    Buffer.Add(DateTime.Now.ToString() + " Warning: " + message);
+                    break;
+                case LogLevel.Exception:
+                    Buffer.Add(DateTime.Now.ToString() + " Exception: " + message);
+                    break;
+                default:
+                    Buffer.Add(DateTime.Now.ToString() + " Exception: LogEnumError");
+                    break;
+            }
+        }
+
+        public void Flush() {
+            using (FileStream fs = new FileStream(LogFilePath, FileMode.OpenOrCreate, FileAccess.Write)) {
+                using (StreamWriter sw = new StreamWriter(fs)) {
+                    foreach (string str in Buffer) {
+                        sw.WriteLine(str);
+                    }
+                }
+            }
+            Buffer.Clear();
         }
     }
 }
